@@ -1,0 +1,9 @@
+site_name: Solidity CTFs
+repo_name: 'dmtrbch/solidity-ctfs'
+repo_url: https://github.com/dmtrbch/solidity-ctfs/
+edit_uri: tree/main/docs/
+theme:
+  name: material
+markdown_extensions:
+  - attr_list
+  - codehilite
