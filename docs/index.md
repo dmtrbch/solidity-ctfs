@@ -1,6 +1,6 @@
 # Welcome!
 
-Hello World! This is the place where I'll be sharing my solutions for various capture the flag (CTF) challenges, specifically those from Ethernaut, Capture the Ether, and Damn Vulnerable DeFi.
+Hey there! This is the place where I'll be sharing my solutions for various capture the flag (CTF) challenges, specifically those from Ethernaut, Capture the Ether, and Damn Vulnerable DeFi.
 
 
 If you're not familiar with CTFs, they're a type of competition where participants solve puzzles and challenges to find hidden "flags" that are meant to represent vulnerabilities in software or systems. These challenges can range from simple coding exercises to complex cryptographic problems, and they're a great way to develop your skills in areas like reverse engineering, blockchain security, and exploit development.
